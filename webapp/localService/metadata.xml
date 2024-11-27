@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZGW_SP1_TEMP_SRV_01" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="z_sflight" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Carrid"/>
+                </Key>
+                <Property Name="Carrid" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Airline" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Connid" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Flight Number" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Fldate" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="Date" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Class" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Class" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="z_sf_sb" Relationship="ZGW_SP1_TEMP_SRV_01.z_asso_sf_sb" FromRole="FromRole_z_asso_sf_sb" ToRole="ToRole_z_asso_sf_sb"/>
+            </EntityType>
+            <EntityType Name="z_sbook" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Carrid"/>
+                </Key>
+                <Property Name="Carrid" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Airline" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Connid" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Flight Number" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Fldate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="Date" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Bookid" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="Booking number" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Class" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Class" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="OrderDate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="Booking date" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="z_sb_sf" Relationship="ZGW_SP1_TEMP_SRV_01.z_asso_sf_sb" FromRole="ToRole_z_asso_sf_sb" ToRole="FromRole_z_asso_sf_sb"/>
+            </EntityType>
+            <EntityType Name="z_scarr" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Carrid"/>
+                </Key>
+                <Property Name="Carrid" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Airline" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Carrname" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="Airline" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <Association Name="z_asso_sf_sb" sap:content-version="1">
+                <End Type="ZGW_SP1_TEMP_SRV_01.z_sflight" Multiplicity="1" Role="FromRole_z_asso_sf_sb"/>
+                <End Type="ZGW_SP1_TEMP_SRV_01.z_sbook" Multiplicity="*" Role="ToRole_z_asso_sf_sb"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_z_asso_sf_sb">
+                        <PropertyRef Name="Carrid"/>
+                    </Principal>
+                    <Dependent Role="ToRole_z_asso_sf_sb">
+                        <PropertyRef Name="Carrid"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <EntityContainer Name="ZGW_SP1_TEMP_SRV_01_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="z_sflightSet" EntityType="ZGW_SP1_TEMP_SRV_01.z_sflight" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="z_sbookSet" EntityType="ZGW_SP1_TEMP_SRV_01.z_sbook" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="z_scarrSet" EntityType="ZGW_SP1_TEMP_SRV_01.z_scarr" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <AssociationSet Name="z_asso_sf_sbSet" Association="ZGW_SP1_TEMP_SRV_01.z_asso_sf_sb" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="z_sflightSet" Role="FromRole_z_asso_sf_sb"/>
+                    <End EntitySet="z_sbookSet" Role="ToRole_z_asso_sf_sb"/>
+                </AssociationSet>
+            </EntityContainer>
+            <atom:link rel="self" href="http://zin-blr-srv1:8001/sap/opu/odata/sap/ZGW_SP1_TEMP_SRV_01/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://zin-blr-srv1:8001/sap/opu/odata/sap/ZGW_SP1_TEMP_SRV_01/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
